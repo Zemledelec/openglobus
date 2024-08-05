@@ -12,7 +12,8 @@ import {UTILS} from './utils';
 const NIGHT = `const vec3 nightStep = 10.0 * vec3(0.58, 0.48, 0.25);`;
 
 const DEF_BLEND = `#define blend(DEST, SAMPLER, OFFSET, OPACITY) \
-                    src = texture( SAMPLER, OFFSET.xy + vTextureCoord.xy * OFFSET.zw );\
+                    src = texture( SAMPLER, OFFSET.xy + vTextureCoord.xy * OFFSET.zw ); \
+                    if(src.rgb == vec3(1.0,0.0,1.0)) discard; \
                     DEST = DEST * (1.0 - src.a * OPACITY) + src * OPACITY;`;
 
 const DEF_BLEND_WEBGL1 = `#define blend(DEST, SAMPLER, OFFSET, OPACITY) \

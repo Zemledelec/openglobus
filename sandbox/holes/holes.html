@@ -1,0 +1,79 @@
+﻿<html>
+
+<head>
+    <title>Holes</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="geoObject.js" type="module"></script>
+    <link rel="stylesheet" href="../../css/og.css" type="text/css"/>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+<div id="earth" style="position: absolute; width:100%;height:100%"></div>
+
+<script type="module" id="og-sandbox-script">
+    import {
+        math,
+        Globe,
+        control,
+        utils,
+        LonLat,
+        GlobusTerrain,
+        Vector,
+        OpenStreetMap,
+        Entity,
+        Bing,
+        GlobusRgbTerrain,
+        Object3d,
+        EmptyTerrain,
+        GeoImage
+    } from "../../lib/@openglobus/og.esm.js";
+
+    let sat = new Bing();
+    let osm = new OpenStreetMap();
+
+    let hl1 = new GeoImage("HOLE-1", {
+        src: "hole-mask.png",
+        //corners: [[37.286664453664194, -3.0473247187887442], [37.38444113753977, -3.0468478037959073], [37.384014813048736, -3.0904441121085506], [37.29373990291454, -3.09380219219323]],
+        corners: [[37.34312374357037,-3.076330568524921],[37.34367503108143,-3.0763313533295267],[37.3433931748654,-3.0770435579103776],[37.34288702157833,-3.077059548892954]],
+        visibility: true,
+        isBaseLayer: false,
+        opacity: 1.0
+    });
+
+    let hl2 = new GeoImage("HOLE-2", {
+        src: "hole-mask.png",
+        corners: [[37.38105272404436,-3.073192681792243],[37.38480543254857,-3.0745910015399147],[37.38562240400599,-3.0787939577383936],[37.380691878415796,-3.078555223592706]],
+        visibility: true,
+        isBaseLayer: false,
+        opacity: 1.0
+    });
+
+
+    const globus = new Globe({
+        target: "earth",
+        name: "Earth",
+        terrain: new GlobusRgbTerrain(),
+        layers: [osm, sat, hl1, hl2],
+        atmosphereEnabled: false,
+        fontsSrc: "../../res/fonts"
+    });
+
+    globus.planet.flyLonLat(new LonLat(37.34, -3.07, 19500));
+
+    globus.planet.addControl(new control.DebugInfo({}));
+    globus.planet.addControl(new control.KeyboardNavigation());
+    globus.planet.addControl(new control.ToggleWireframe());
+    globus.planet.addControl(new control.LayerSwitcher());
+    //globus.planet.addControl(new control.GeoImageDragControl());
+
+</script>
+</body>
+
+</html>
